@@ -1,0 +1,40 @@
+{
+  "name": "voter-slip-server",
+  "version": "1.0.0",
+  "description": "A Node.js server for managing voter slip issues, slip queue, and providing real-time updates via WebSocket.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+    "start": "node -r dotenv/config --experimental-json-modules src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "backend",
+    "server",
+    "voter-slip",
+    "voter-slip-server",
+    "voter-slip-queue",
+    "voter-slip-queue-server",
+    "voter-slip-issue",
+    "node.js",
+    "Node JS"
+  ],
+  "author": "Shahidul Deowan",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mssql": "^10.0.2",
+    "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5"
+  }
+}
