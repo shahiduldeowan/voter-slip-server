@@ -13,7 +13,7 @@ const myFormat = printf(({ level, message, timestamp, context }) => {
 });
 
 const logger = createLogger({
-  level: process.env.NODE_ENV === "production" ? "warn" : "info",
+  level: "info",
   format: combine(timestamp(), myFormat),
   transports: [
     new transports.File({
