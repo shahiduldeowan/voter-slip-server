@@ -42,7 +42,8 @@ A Node.js server for managing voter slip issues, slip queue, and providing real-
     - **`.env.development`:**
 
         ```plaintext
-        PORT=3001
+        PORT=your_development_port
+        CORS_ORIGIN=your_cors_origen
         JWT_SECRET=your_development_jwt_secret
         DB_USER=dev_user
         DB_PASSWORD=dev_password
@@ -53,7 +54,8 @@ A Node.js server for managing voter slip issues, slip queue, and providing real-
     - **`.env.production`:**
 
         ```plaintext
-        PORT=3002
+        PORT=your_production_port
+        CORS_ORIGIN=your_cors_origen
         JWT_SECRET=your_production_jwt_secret
         DB_USER=prod_user
         DB_PASSWORD=prod_password
@@ -64,7 +66,8 @@ A Node.js server for managing voter slip issues, slip queue, and providing real-
     - **`.env.uat`:**
 
         ```plaintext
-        PORT=3003
+        PORT=your_uat_port
+        CORS_ORIGIN=your_cors_origen
         JWT_SECRET=your_uat_jwt_secret
         DB_USER=uat_user
         DB_PASSWORD=uat_password
