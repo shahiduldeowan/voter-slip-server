@@ -31,16 +31,46 @@ A Node.js server for managing voter slip issues, slip queue, and providing real-
 
 3. **Set up environment variables:**
 
-    Create a `.env` file in the root directory and add the following variables:
+    Create `.env` files in the root directory for each environment and add the following variables:
 
-    ```plaintext
-    PORT=3000
-    JWT_SECRET=your_jwt_secret
-    DB_USER=your_db_user
-    DB_PASSWORD=your_db_password
-    DB_SERVER=your_db_server
-    DB_DATABASE=your_db_name
-    ```
+    - **`.env` (for default environment):**
+
+        ```plaintext
+        NODE_ENV=your_environment
+        ```
+
+    - **`.env.development`:**
+
+        ```plaintext
+        PORT=3001
+        JWT_SECRET=your_development_jwt_secret
+        DB_USER=dev_user
+        DB_PASSWORD=dev_password
+        DB_SERVER=dev_server
+        DB_DATABASE=dev_database
+        ```
+
+    - **`.env.production`:**
+
+        ```plaintext
+        PORT=3002
+        JWT_SECRET=your_production_jwt_secret
+        DB_USER=prod_user
+        DB_PASSWORD=prod_password
+        DB_SERVER=prod_server
+        DB_DATABASE=prod_database
+        ```
+
+    - **`.env.uat`:**
+
+        ```plaintext
+        PORT=3003
+        JWT_SECRET=your_uat_jwt_secret
+        DB_USER=uat_user
+        DB_PASSWORD=uat_password
+        DB_SERVER=uat_server
+        DB_DATABASE=uat_database
+        ```
 
 ## Usage
 
@@ -58,6 +88,7 @@ A Node.js server for managing voter slip issues, slip queue, and providing real-
 
 ## Environment Variables
 
+- `NODE_ENV`: Defines the environment (e.g., development, production, uat).
 - `PORT`: The port number on which the server runs.
 - `JWT_SECRET`: Secret key for JWT authentication.
 - `DB_USER`: Database user name.
