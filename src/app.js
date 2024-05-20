@@ -15,9 +15,14 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-app.get("/", async (req, res) => {
-  console.log(`Environment: ${process.env.NODE_ENV}`);
-  res.send("Hello World!");
-});
+// Imports
+import { errorHandler } from "./middlewares/errorMiddlewares.js";
+import healthCheckRouter from "./routes/healthCheckRoutes.js";
+import v1Router from "./routes/v1/index.js";
+
+app.use("/", healthCheckRouter);
+app.use("/api/v1", v1Router);
+
+app.use(errorHandler);
 
 export { app };
