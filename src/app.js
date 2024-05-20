@@ -23,6 +23,14 @@ import v1Router from "./routes/v1/index.js";
 app.use("/", healthCheckRouter);
 app.use("/api/v1", v1Router);
 
+// Catch 404 and forward to error handler
+app.use((req, res, next) => {
+  const error = new Error("Not Found");
+  error.status = 404;
+  next(error);
+});
+
+// Error handler
 app.use(errorHandler);
 
 export { app };
