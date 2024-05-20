@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   console.log(`Environment: ${process.env.NODE_ENV}`);
   res.send("Hello World!");
 });
