@@ -1,13 +1,19 @@
+import dotenv from "dotenv";
+import { DB_NAME } from "../constants.js";
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
 const config = {
   driver: process.env.DB_DRIVER,
   server: process.env.DB_SERVER,
-  database: process.env.DB_DATABASE,
+  database: DB_NAME,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   options: {
-    trustedConnection: false,
+    encrypt: false,
     enableArithAbort: false,
   },
 };
 
-export default config;
+export { config };
