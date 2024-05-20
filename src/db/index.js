@@ -1,13 +1,17 @@
-import { ConnectionPool } from "mssql";
-import config from "../config/dbConfig.js";
+import sql from "mssql";
+import { config } from "../config/dbConfig.js";
 import { logger } from "../config/logConfig.js";
+
+const { ConnectionPool } = sql;
 
 const poolPromise = new ConnectionPool(config);
 
-const connectToDB = async () => poolPromise.connect();
+async function connectToDatabase() {
+  return poolPromise.connect();
+}
 
 poolPromise.on("error", (err) => {
   logger.error(`Database connection failed ${err.message}`);
 });
 
-export { connectToDB, poolPromise };
+export { connectToDatabase, poolPromise };
