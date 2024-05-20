@@ -1,8 +1,12 @@
 // const { ApiResponse } = require("../utils/ApiResponse");
-import { ApiResponse } from "../utils/ApiResponse.js";
 
 const healthCheck = (req, res) => {
-  res.status(200).json(new ApiResponse(200, "OK", "Server is up and running"));
+  const health = {
+    status: "OK",
+    timestamp: new Date().toISOString(),
+    message: "Server is up and running",
+  };
+  res.status(200).json(health);
 };
 
 export { healthCheck };
