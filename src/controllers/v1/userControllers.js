@@ -71,21 +71,27 @@ const loginUser = async (req, res) => {
 
     const ipAddress = getReqIpAddressByReq(req);
     const os = getOSByReq(req);
-    const user = await onLoginUser(USER_ACTIONS.LOGIN, username, os, ipAddress);
+    const users = await onLoginUser(
+      USER_ACTIONS.LOGIN,
+      username,
+      os,
+      ipAddress
+    );
 
-    if (!user) {
+    if (!users) {
+      return res
+        .status(401)
+        .json(new ApiJsonError(401, "Username or password does not match"));
+    }
+    const user = users[0];
+    if (!user?.UserID) {
       return res
         .status(401)
         .json(new ApiJsonError(401, "Username or password does not match"));
     }
 
-    if (!user[0]?.UserID) {
-      return res
-        .status(401)
-        .json(new ApiJsonError(401, "Username or password does not match"));
-    }
+    const token = await generateToken(user?.UserID);
 
-    const token = await generateToken(user[0]?.UserID);
     const newUser = {
       token,
       ...user,
@@ -118,9 +124,8 @@ const loginUser = async (req, res) => {
 
 const logoutUser = async (req, res) => {
   try {
-    const body = req.body;
-    const userID = body?.UserID;
-    const sessionID = body?.SessionID;
+    const userID = req?.user?.UserID;
+    const sessionID = req?.user?.SessionID;
 
     if (!userID && !sessionID) {
       return res
