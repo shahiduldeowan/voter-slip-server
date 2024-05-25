@@ -5,9 +5,11 @@ import {
   generateToken,
   isPasswordCorrect,
   onLoginUser,
+  onLogoutUser,
 } from "../../models/v1/userModels.js";
 import { ApiJsonError } from "../../utils/ApiError.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
+import { getOSByReq, getReqIpAddressByReq } from "../../utils/requestInfo.js";
 
 const existUser = async (req, res) => {
   const { username } = req.params;
@@ -67,7 +69,9 @@ const loginUser = async (req, res) => {
         .json(new ApiJsonError(401, "Username or password does not match"));
     }
 
-    const user = await onLoginUser(USER_ACTIONS.LOGIN, username);
+    const ipAddress = getReqIpAddressByReq(req);
+    const os = getOSByReq(req);
+    const user = await onLoginUser(USER_ACTIONS.LOGIN, username, os, ipAddress);
 
     if (!user) {
       return res
@@ -112,4 +116,33 @@ const loginUser = async (req, res) => {
   }
 };
 
-export { existUser, loginUser, registerUser };
+const logoutUser = async (req, res) => {
+  try {
+    const body = req.body;
+    const userID = body?.UserID;
+    const sessionID = body?.SessionID;
+
+    if (!userID && !sessionID) {
+      return res
+        .status(401)
+        .json(new ApiJsonError(401, "UserID or SessionID is required!"));
+    }
+    await onLogoutUser(userID, sessionID);
+    return res
+      .status(200)
+      .json(new ApiResponse(200, "SUCCESS", "Successfully logged out"));
+  } catch (error) {
+    logger.error(error);
+    console.log(error.stack);
+    return res
+      .status(error.status || 500)
+      .json(
+        new ApiJsonError(
+          error.status || 500,
+          error.message || "Internal server error!"
+        )
+      );
+  }
+};
+
+export { existUser, loginUser, logoutUser, registerUser };
