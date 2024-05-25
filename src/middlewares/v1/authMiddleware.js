@@ -20,7 +20,11 @@ const verifyJWT = async (req, res, next) => {
     }
 
     const reqUser = await onGetUser(decodeToken?.UserID);
-    if (!reqUser[0]?.UserID) {
+    if (!reqUser[0]?.UserID && !reqUser[0].SessionID) {
+      return res.status(401).json(new ApiJsonError(401, "Unauthorized user"));
+    }
+
+    if (reqUser[0]?.SessionID !== decodeToken?.SessionID) {
       return res.status(401).json(new ApiJsonError(401, "Unauthorized user"));
     }
 
