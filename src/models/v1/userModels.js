@@ -48,6 +48,7 @@ const generateToken = async (userID) => {
   }
 };
 
+// Login user
 const onLoginUser = async (actionName, username, os, ip) => {
   try {
     const request = await poolPromise
@@ -64,6 +65,22 @@ const onLoginUser = async (actionName, username, os, ip) => {
   }
 };
 
+// Get user
+const onGetUser = async (userID) => {
+  try {
+    const request = await poolPromise
+      .request()
+      .input("ActionName", USER_ACTIONS.GET)
+      .input("UserID", userID)
+      .execute("dbo.sp_Users_SEL");
+
+    return request.recordset;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Logout user
 const onLogoutUser = async (userID, sessionID) => {
   try {
     const request = await poolPromise
@@ -82,6 +99,7 @@ export {
   generateHashPassword,
   generateToken,
   isPasswordCorrect,
+  onGetUser,
   onLoginUser,
   onLogoutUser,
 };
