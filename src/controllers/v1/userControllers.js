@@ -127,9 +127,12 @@ const logoutUser = async (req, res) => {
         .status(401)
         .json(new ApiJsonError(401, "UserID or SessionID is required!"));
     }
+
     await onLogoutUser(userID, sessionID);
+
     return res
       .status(200)
+      .clearCookie("token", { maxAge: 0, secure: true })
       .json(new ApiResponse(200, "SUCCESS", "Successfully logged out"));
   } catch (error) {
     logger.error(error);
