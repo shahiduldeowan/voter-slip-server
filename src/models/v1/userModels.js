@@ -22,6 +22,7 @@ const generateAccessToken = (user) => {
       Username: user.Username,
       Email: user.Email,
       RoleName: user.RoleName,
+      SessionID: user.SessionID,
     },
     process.env.JWT_SECRET,
     {
@@ -47,12 +48,14 @@ const generateToken = async (userID) => {
   }
 };
 
-const onLoginUser = async (actionName, username) => {
+const onLoginUser = async (actionName, username, os, ip) => {
   try {
     const request = await poolPromise
       .request()
       .input("ActionName", actionName)
       .input("Username", username)
+      .input("OS", os)
+      .input("IPAddress", ip)
       .execute("dbo.sp_Users_login");
 
     return request.recordset;
@@ -61,4 +64,24 @@ const onLoginUser = async (actionName, username) => {
   }
 };
 
-export { generateHashPassword, generateToken, isPasswordCorrect, onLoginUser };
+const onLogoutUser = async (userID, sessionID) => {
+  try {
+    const request = await poolPromise
+      .request()
+      .input("UserID", userID)
+      .input("SessionID", sessionID)
+      .execute("dbo.sp_Users_Logout");
+
+    return request.recordset;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export {
+  generateHashPassword,
+  generateToken,
+  isPasswordCorrect,
+  onLoginUser,
+  onLogoutUser,
+};
