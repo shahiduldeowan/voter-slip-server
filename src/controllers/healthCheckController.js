@@ -1,5 +1,3 @@
-// const { ApiResponse } = require("../utils/ApiResponse");
-
 const healthCheck = (req, res) => {
   const health = {
     status: "OK",
