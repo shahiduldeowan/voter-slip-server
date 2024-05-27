@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { logger } from "../../config/logConfig.js";
-import { USER_ACTIONS } from "../../constants.js";
+import { DB_ACTIONS } from "../../constants.js";
 import {
   generateToken,
   isPasswordCorrect,
@@ -45,7 +45,7 @@ const loginUser = async (req, res) => {
         .json(new ApiJsonError(401, "Username or password is required!"));
     }
 
-    const findUser = await onLoginUser(USER_ACTIONS.LOGIN_FIND, username);
+    const findUser = await onLoginUser(DB_ACTIONS.LOGIN_FIND, username);
     if (!findUser) {
       return res
         .status(404)
@@ -71,12 +71,7 @@ const loginUser = async (req, res) => {
 
     const ipAddress = getReqIpAddressByReq(req);
     const os = getOSByReq(req);
-    const users = await onLoginUser(
-      USER_ACTIONS.LOGIN,
-      username,
-      os,
-      ipAddress
-    );
+    const users = await onLoginUser(DB_ACTIONS.LOGIN, username, os, ipAddress);
 
     if (!users) {
       return res
