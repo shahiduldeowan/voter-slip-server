@@ -1,3 +1,12 @@
+# Ignore everything in the public/files and public/images directory
+/public/files/*
+/public/images/*
+
+# Except for the .gitkeep file
+!public/files/.gitkeep
+!public/images/.gitkeep
+
+
 # Logs
 logs
 *.log
