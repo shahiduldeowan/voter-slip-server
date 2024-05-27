@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { USER_ACTIONS } from "../../constants.js";
+import { DB_ACTIONS } from "../../constants.js";
 import { poolPromise } from "../../db/index.js";
 import { ApiError } from "../../utils/ApiError.js";
 
@@ -36,7 +36,7 @@ const generateToken = async (userID) => {
   try {
     const request = await poolPromise
       .request()
-      .input("ActionName", USER_ACTIONS.GET)
+      .input("ActionName", DB_ACTIONS.GET)
       .input("UserID", userID)
       .execute("sp_Users_SEL");
 
@@ -70,7 +70,7 @@ const onGetUser = async (userID) => {
   try {
     const request = await poolPromise
       .request()
-      .input("ActionName", USER_ACTIONS.GET)
+      .input("ActionName", DB_ACTIONS.GET)
       .input("UserID", userID)
       .execute("dbo.sp_Users_SEL");
 
