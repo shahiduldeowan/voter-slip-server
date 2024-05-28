@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { logger } from "../../config/logConfig.js";
-import { onGetUser } from "../../models/v1/userModels.js";
+import { onGetUser, onLogoutUser } from "../../models/v1/userModels.js";
 import { ApiJsonError } from "../../utils/ApiError.js";
 
 const verifyJWT = async (req, res, next) => {
@@ -8,6 +8,7 @@ const verifyJWT = async (req, res, next) => {
     const token =
       req?.cookies?.token ||
       req.header("Authorization")?.replace("Bearer ", "");
+
     if (!token) {
       logger.error(`Unauthorized request [${req.url}]`);
       return res.status(401).json(new ApiJsonError(401, "Unauthorized user"));
@@ -20,12 +21,23 @@ const verifyJWT = async (req, res, next) => {
     }
 
     const reqUser = await onGetUser(decodeToken?.UserID);
+
     if (!reqUser[0]?.UserID && !reqUser[0].SessionID) {
-      return res.status(401).json(new ApiJsonError(401, "Unauthorized user"));
+      await onLogoutUser(decodeToken?.UserID, decodeToken?.SessionID);
+
+      return res
+        .status(401)
+        .clearCookie("token", { maxAge: 0, secure: true })
+        .json(new ApiJsonError(401, "Unauthorized user"));
     }
 
     if (reqUser[0]?.SessionID !== decodeToken?.SessionID) {
-      return res.status(401).json(new ApiJsonError(401, "Unauthorized user"));
+      await onLogoutUser(decodeToken?.UserID, decodeToken?.SessionID);
+
+      return res
+        .status(401)
+        .clearCookie("token", { maxAge: 0, secure: true })
+        .json(new ApiJsonError(401, "Unauthorized user"));
     }
 
     req.user = reqUser[0];

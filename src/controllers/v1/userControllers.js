@@ -1,9 +1,10 @@
 import bcrypt from "bcrypt";
 import { logger } from "../../config/logConfig.js";
-import { DB_ACTIONS } from "../../constants.js";
+import { COOKIE_OPTIONS, DB_ACTIONS } from "../../constants.js";
 import {
   generateToken,
   isPasswordCorrect,
+  onGetUser,
   onLoginUser,
   onLogoutUser,
 } from "../../models/v1/userModels.js";
@@ -92,14 +93,9 @@ const loginUser = async (req, res) => {
       ...user,
     };
 
-    const options = {
-      httpOnly: true,
-      secure: true,
-    };
-
     return res
       .status(200)
-      .cookie("token", token, options)
+      .cookie("token", token, COOKIE_OPTIONS)
       .json(new ApiResponse(200, newUser, "Login successful"));
   } catch (error) {
     // logger.error(error);
@@ -107,6 +103,45 @@ const loginUser = async (req, res) => {
     console.log(error.stack);
 
     return res
+      .status(error.status || 500)
+      .json(
+        new ApiJsonError(
+          error.status || 500,
+          error.message || "Internal server error!"
+        )
+      );
+  }
+};
+
+const authUserStatus = async (req, res) => {
+  try {
+    const userID = req.user?.UserID;
+    const users = await onGetUser(userID);
+    if (!users) {
+      return res
+        .status(404)
+        .json(new ApiJsonError(404, "User does not exist!"));
+    }
+
+    const token =
+      req?.cookies?.token ||
+      req.header("Authorization")?.replace("Bearer ", "");
+
+    const user = users[0];
+
+    return res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          token,
+          ...user,
+        },
+        "User found"
+      )
+    );
+  } catch (error) {
+    logger.error(error.message || "Internal server error!");
+    res
       .status(error.status || 500)
       .json(
         new ApiJsonError(
@@ -148,4 +183,4 @@ const logoutUser = async (req, res) => {
   }
 };
 
-export { existUser, loginUser, logoutUser, registerUser };
+export { authUserStatus, existUser, loginUser, logoutUser, registerUser };

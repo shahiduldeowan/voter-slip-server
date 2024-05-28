@@ -6,4 +6,10 @@ const DB_ACTIONS = {
   GET: "GET",
 };
 
-export { DB_ACTIONS, DB_NAME };
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+};
+
+export { COOKIE_OPTIONS, DB_ACTIONS, DB_NAME };
