@@ -43,36 +43,36 @@ A Node.js server for managing voter slip issues, slip queue, and providing real-
 
         ```plaintext
         PORT=your_development_port
-        CORS_ORIGIN=your_cors_origen
         JWT_SECRET=your_development_jwt_secret
         DB_USER=dev_user
         DB_PASSWORD=dev_password
         DB_SERVER=dev_server
         DB_DATABASE=dev_database
+        JWT_EXPIRY=your_expire_date
         ```
 
     - **`.env.production`:**
 
         ```plaintext
         PORT=your_production_port
-        CORS_ORIGIN=your_cors_origen
         JWT_SECRET=your_production_jwt_secret
         DB_USER=prod_user
         DB_PASSWORD=prod_password
         DB_SERVER=prod_server
         DB_DATABASE=prod_database
+        JWT_EXPIRY=your_expire_date
         ```
 
     - **`.env.uat`:**
 
         ```plaintext
         PORT=your_uat_port
-        CORS_ORIGIN=your_cors_origen
         JWT_SECRET=your_uat_jwt_secret
         DB_USER=uat_user
         DB_PASSWORD=uat_password
         DB_SERVER=uat_server
         DB_DATABASE=uat_database
+        JWT_EXPIRY=your_expire_date
         ```
 
 ## Usage
@@ -98,6 +98,7 @@ A Node.js server for managing voter slip issues, slip queue, and providing real-
 - `DB_PASSWORD`: Database user password.
 - `DB_SERVER`: Database server address.
 - `DB_DATABASE`: Name of the database.
+- `JWT_EXPIRY`: Expiry time for JWT authentication.
 
 ## Dependencies
 
