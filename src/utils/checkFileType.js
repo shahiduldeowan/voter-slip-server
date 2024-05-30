@@ -10,4 +10,23 @@ const isExcelFileByMimeType = (mimeType) => {
   );
 };
 
-export { isExcelFileByMimeType };
+const isZipFileByMimeType = (mimeType) => {
+  if (!mimeType) {
+    return false;
+  }
+
+  const zipMimeTypes = [
+    "application/zip",
+    "application/x-zip-compressed",
+    "multipart/x-zip",
+  ];
+
+  return zipMimeTypes.includes(mimeType);
+};
+
+const isValidImageByExtension = (extension) => {
+  const validExtension = [".jpg", ".jpeg", ".png", ".bmp", ".svg"];
+  return validExtension.includes(extension.toString());
+};
+
+export { isExcelFileByMimeType, isValidImageByExtension, isZipFileByMimeType };
