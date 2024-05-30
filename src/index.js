@@ -18,5 +18,5 @@ connectToDatabase()
   });
 
 app.listen(PORT, () => {
-  logger.info(`⚙️ Server is running at port : ${process.env.PORT}`);
+  logger.info(`⚙️ Server is running at port : ${PORT}`);
 });
