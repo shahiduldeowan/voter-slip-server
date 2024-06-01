@@ -1,5 +1,6 @@
 import { DB_ACTIONS } from "../../constants.js";
 import { poolPromise } from "../../db/index.js";
+import { getServerIP } from "../../utils/serverInfo.js";
 
 /**
  * This function is used to find a single voter record in the database based on a given query.
@@ -18,7 +19,25 @@ const findSingleVoterByQuery = async (query) => {
 
     const result = request.recordset;
 
-    if (result && result.length > 0) return result[0];
+    if (result && result.length > 0) {
+      const voter = result[0];
+      const serverIP = getServerIP();
+      const port = process.env.PORT || 8000;
+      const photoURL = voter?.PhotoURL
+        ? `${serverIP}:${port}/${voter?.PhotoURL}`
+        : null;
+
+      const myVoter = {
+        Name: voter?.Name,
+        AccountNumber: voter?.AccountNumber,
+        SerialNumber: voter?.SerialNumber,
+        PhotoURL: photoURL,
+        SlipStatus: voter?.SlipStatus,
+        CounterNumber: voter?.CounterNumber,
+      };
+
+      return myVoter;
+    }
     return null;
   } catch (error) {
     throw error;
