@@ -1,5 +1,8 @@
 import { logger } from "../../config/logConfig.js";
-import { findSingleVoterByQuery } from "../../models/v1/voterModels.js";
+import {
+  findSingleVoterByQuery,
+  onVoterCounts,
+} from "../../models/v1/voterModels.js";
 import { ApiJsonError } from "../../utils/ApiError.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
 
@@ -34,4 +37,24 @@ const findSingleVoter = async (req, res) => {
   }
 };
 
-export { findSingleVoter };
+const getVoterCounts = async (req, res) => {
+  try {
+    const voterCounts = await onVoterCounts();
+    res
+      .status(200)
+      .json(new ApiResponse(200, voterCounts, "voter counts found"));
+  } catch (error) {
+    logger.error(error.message);
+    console.log(error.stack);
+    res
+      .status(error.status || 500)
+      .json(
+        new ApiJsonError(
+          error.status || 500,
+          error.message || "Internal Server Error"
+        )
+      );
+  }
+};
+
+export { findSingleVoter, getVoterCounts };
