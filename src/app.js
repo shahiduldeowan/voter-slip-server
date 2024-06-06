@@ -9,7 +9,11 @@ const app = express();
 const server = createServer(app);
 const io = new socketIO(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:4173"],
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:4173",
+      "http://192.168.1.166:3000",
+    ],
     credentials: true,
   },
 });
@@ -18,7 +22,11 @@ app.set("io", io);
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:4173"],
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:4173",
+      "http://192.168.1.166:3000",
+    ],
     credentials: true,
   })
 );
