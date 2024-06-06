@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { app } from "./app.js";
+import { server } from "./app.js";
 import { logger } from "./config/logConfig.js";
 import { connectToDatabase } from "./db/index.js";
 dotenv.config({
@@ -17,6 +17,7 @@ connectToDatabase()
     logger.error(`Database connection failed ${err.message}`);
   });
 
-app.listen(PORT, () => {
-  logger.info(`⚙️ Server is running at port : ${PORT}`);
+server.listen(PORT, () => {
+  logger.info(`⚙️ Server is running on port: ${PORT}`);
+  console.log(`⚙️ Server is running on port: ${PORT}`);
 });
