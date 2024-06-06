@@ -149,15 +149,3 @@ const uploadMembersImagesZipFile = async (req, res) => {
 };
 
 export { getMembers, uploadMembers, uploadMembersImagesZipFile };
-
-/*
-imageFiles:
-{
-    mode: 420,
-    mtime: 2023-06-21T12:29:10.000Z,
-    path: 'DCL_Photos/LM0272.jpg',
-    type: 'file',
-    data: <Buffer ff d8 ff e0 00 10 4a 46 49 46 00 01 02 01 01 2c 01 2c 00 00 ff e1 17 67 45 78 69 66 00 00 49 49 2a 00 08 00 00 00 0a 00 0f 01 02 00 06 00 00 00 86 00 ... 169394 more bytes>
-  },
-
-*/
