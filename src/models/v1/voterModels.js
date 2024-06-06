@@ -9,7 +9,7 @@ import { getServerIP } from "../../utils/serverInfo.js";
  * @returns {Promise<Object|null>} - A promise that resolves to the found voter object or null if not found.
  * @throws {Error} - If an error occurs during the database operation.
  */
-const findSingleVoterByQuery = async (query) => {
+const findSingleVoterByQuery = async (query, isForSlip) => {
   try {
     const request = await poolPromise
       .request()
@@ -24,14 +24,14 @@ const findSingleVoterByQuery = async (query) => {
       const serverIP = getServerIP();
       const port = process.env.PORT || 8000;
       const photoURL = voter?.PhotoURL
-        ? `${serverIP}:${port}/${voter?.PhotoURL}`
+        ? `http://${serverIP}:${port}/${voter?.PhotoURL}`
         : null;
 
       const myVoter = {
         Name: voter?.Name,
         AccountNumber: voter?.AccountNumber,
         SerialNumber: voter?.SerialNumber,
-        PhotoURL: photoURL,
+        PhotoURL: isForSlip ? voter?.PhotoURL : photoURL,
         SlipStatus: voter?.SlipStatus,
         CounterNumber: voter?.CounterNumber,
       };
@@ -44,4 +44,14 @@ const findSingleVoterByQuery = async (query) => {
   }
 };
 
-export { findSingleVoterByQuery };
+const onVoterCounts = async () => {
+  const request = await poolPromise.request().execute("dbo.sp_Voters_Count");
+
+  const result = request.recordset;
+  if (result && result.length > 0) {
+    return result[0];
+  }
+  return null;
+};
+
+export { findSingleVoterByQuery, onVoterCounts };

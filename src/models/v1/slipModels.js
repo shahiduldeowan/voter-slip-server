@@ -68,4 +68,20 @@ const onSlipQueue = async () => {
   return [];
 };
 
-export { onSlipIssue };
+const onSlipReset = async (userID, voterID) => {
+  const request = await poolPromise
+    .request()
+    .input("ActionName", DB_ACTIONS.SLIP_RESET)
+    .input("UserID", userID)
+    .input("VoterID", voterID)
+    .execute("dbo.sp_VotersSlip_Update");
+
+  const result = request.recordset;
+  if (result && result.length > 0) {
+    return result[0];
+  }
+
+  return null;
+};
+
+export { onSlipIssue, onSlipQueue, onSlipReset };
