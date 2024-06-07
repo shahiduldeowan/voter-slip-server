@@ -151,7 +151,7 @@ CREATE INDEX IX_Settings_Category ON T_Settings (Category);
 
 INSERT INTO T_Settings (Category, Name, Value, Description)
 VALUES 
-    ('System', 'Slip Issue Queue', '15', 'Maximum number of slip issue queue allowed');
+    ('System', 'Slip Issue Queue', '16', 'Maximum number of slip issue queue allowed');
 
 CREATE TABLE T_SettingsAudit (
     AuditID INT PRIMARY KEY IDENTITY(100000,1),

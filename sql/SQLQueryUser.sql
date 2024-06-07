@@ -808,7 +808,41 @@ BEGIN
 END;
 
 
---CREATE PROC sp_VoterCounters_Select
+CREATE PROC sp_VoterCounters_Select
+AS
+BEGIN
+	SELECT
+		VC.StartSerial,
+		VC.EndSerial,
+		VC.Counter,
+		U.Username,
+		VC.CreatedAt
+	FROM T_VoterCounters AS VC
+	INNER JOIN T_Users AS U ON VC.InsertedByUserID = U.UserID;
+END
 
+CREATE PROC sp_VoterCounters_Insert
+(
+	@UserID INT,
+	@StartSerial INT = NULL,
+	@EndSerial INT = NULL,
+	@Counter NVARCHAR(30) = NULL
+)
+AS
+BEGIN
+	INSERT INTO T_VoterCounters
+	(
+		StartSerial,
+		EndSerial,
+		InsertedByUserID,
+		Counter
+	)
+	VALUES
+	(
+		@StartSerial,
+		@EndSerial,
+		@UserID,
+		@Counter
+	);
+END
 
---select * from T_VoterCounters;
